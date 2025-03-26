@@ -18,12 +18,18 @@ export class AuthService {
       .pipe(tap((res) => this.setToken(res.access_token)));
   }
 
-  register(fullName: string, email: string, password: string) {
+  register(
+    fullName: string,
+    email: string,
+    passwordHash: string,
+    companyId: number
+  ) {
     return this.http
       .post<{ access_token: string }>(`${this.apiUrl}/register`, {
         fullName,
         email,
-        password,
+        passwordHash,
+        companyId,
       })
       .pipe(tap((res) => this.setToken(res.access_token)));
   }

@@ -1,0 +1,25 @@
+<div class="container mt-5">
+  <h2>Job Listings</h2>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngFor="let job of jobPosts" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ job.title }}</h5>
+      <p class="card-text">{{ job.description }}</p>
+      <p class="card-text">
+        <small class="text-muted"
+          >{{ job.location }} | {{ job.salaryRange }}</small
+        >
+      </p>
+
+      <button
+        class="btn btn-primary"
+        (click)="apply(job.id)"
+        [disabled]="hasApplied(job.id)"
+      >
+        {{ hasApplied(job.id) ? "Already Applied" : "Apply" }}
+      </button>
+    </div>
+  </div>
+</div>
