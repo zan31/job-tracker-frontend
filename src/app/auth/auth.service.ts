@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 export interface JwtPayload {
   sub: number;
@@ -14,7 +15,7 @@ export class AuthService {
   private tokenKey = 'access_token';
   private apiUrl = 'http://localhost:3000/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string) {
     return this.http
@@ -70,5 +71,11 @@ export class AuthService {
   isRecruiter(): boolean {
     const payload = this.getDecodedToken();
     return !!payload?.company;
+  }
+
+  redirectToDashboard() {
+    const isRecruiter = this.isRecruiter();
+    const target = isRecruiter ? '/recruiter-dashboard' : '/user-dashboard';
+    this.router.navigate([target]);
   }
 }

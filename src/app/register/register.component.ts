@@ -33,8 +33,10 @@ export class RegisterComponent implements OnInit {
     private http: HttpClient,
     private router: Router
   ) {}
-
   ngOnInit(): void {
+    if (this.auth.isLoggedIn()) {
+      this.auth.redirectToDashboard();
+    }
     this.http.get<any[]>('http://localhost:3000/companies').subscribe({
       next: (data) => (this.companies = data),
       error: () => console.error('Failed to load companies'),
@@ -82,7 +84,7 @@ export class RegisterComponent implements OnInit {
         payload.companyId
       )
       .subscribe({
-        next: () => this.router.navigate(['/dashboard']),
+        next: () => this.auth.redirectToDashboard(),
         error: (err) => {
           this.error = err.error?.message || 'Registration failed.';
         },

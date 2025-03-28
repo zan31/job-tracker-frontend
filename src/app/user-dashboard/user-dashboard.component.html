@@ -1,1 +1,66 @@
-<p>user-dashboard works!</p>
+<div class="container mt-5">
+  <h2>User Dashboard</h2>
+
+  <!-- === Profile Form === -->
+  <form (ngSubmit)="updateProfile()" class="mb-4">
+    <div class="mb-3">
+      <label>Full Name</label>
+      <input
+        [(ngModel)]="fullName"
+        name="fullName"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label>New Password</label>
+      <input
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        class="form-control"
+      />
+    </div>
+    <button class="btn btn-primary">Update Profile</button>
+  </form>
+
+  <!-- === CV Upload === -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <label>Upload CV (PDF)</label>
+      <input
+        type="file"
+        (change)="onFileChange($event)"
+        class="form-control"
+        accept="application/pdf"
+      />
+      <button class="btn btn-success mt-2" (click)="uploadCv()">
+        Upload CV
+      </button>
+      <p *ngIf="cvUrl" class="mt-2">
+        Current CV: <a [href]="cvUrl" target="_blank">View</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- === Applications === -->
+  <h4>My Applications</h4>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Company</th>
+        <th>Status</th>
+        <th>Applied At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let app of applications">
+        <td>{{ app.jobPost.title }}</td>
+        <td>{{ app.jobPost.company.name }}</td>
+        <td>{{ app.status }}</td>
+        <td>{{ app.appliedAt | date : "medium" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

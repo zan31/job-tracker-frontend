@@ -16,6 +16,10 @@ export const AuthInterceptor: HttpInterceptorFn = (
   const auth = inject(AuthService);
   const token = auth.getToken();
 
+  if (req.url.includes('amazonaws.com')) {
+    return next(req);
+  }
+
   if (token) {
     const authReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`),

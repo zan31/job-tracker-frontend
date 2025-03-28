@@ -5,13 +5,19 @@ import { AuthGuard } from './auth/auth.guard';
 import { JobBoardComponent } from './job-board/job-board.component';
 import { CreateJobComponent } from './create-job/create-job.component';
 import { RecruiterDashboardComponent } from './recruiter-dashboard/recruiter-dashboard.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
-    path: 'dashboard',
+    path: 'recruiter-dashboard',
     component: RecruiterDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'user-dashboard',
+    component: UserDashboardComponent,
     canActivate: [AuthGuard],
   },
   { path: 'jobs', component: JobBoardComponent, canActivate: [AuthGuard] },
