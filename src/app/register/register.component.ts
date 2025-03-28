@@ -37,10 +37,12 @@ export class RegisterComponent implements OnInit {
     if (this.auth.isLoggedIn()) {
       this.auth.redirectToDashboard();
     }
-    this.http.get<any[]>('http://localhost:3000/companies').subscribe({
-      next: (data) => (this.companies = data),
-      error: () => console.error('Failed to load companies'),
-    });
+    this.http
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/companies')
+      .subscribe({
+        next: (data) => (this.companies = data),
+        error: () => console.error('Failed to load companies'),
+      });
   }
 
   createCompanyAndRegister() {
@@ -51,7 +53,10 @@ export class RegisterComponent implements OnInit {
     };
 
     this.http
-      .post<any>('http://localhost:3000/companies', companyPayload)
+      .post<any>(
+        'https://job-tracker-backend-s1bg.onrender.com/companies',
+        companyPayload
+      )
       .subscribe({
         next: (company) => {
           this.companyId = company.id;

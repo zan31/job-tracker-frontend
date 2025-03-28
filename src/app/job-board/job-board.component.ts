@@ -25,24 +25,32 @@ export class JobBoardComponent implements OnInit {
   }
 
   loadJobPosts() {
-    this.http.get<any[]>('http://localhost:3000/job-posts').subscribe({
-      next: (data) => (this.jobPosts = data),
-      error: () => (this.error = 'Failed to load job posts'),
-    });
+    this.http
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/job-posts')
+      .subscribe({
+        next: (data) => (this.jobPosts = data),
+        error: () => (this.error = 'Failed to load job posts'),
+      });
   }
 
   loadApplications() {
-    this.http.get<any[]>('http://localhost:3000/applications/my').subscribe({
-      next: (apps) => {
-        this.appliedJobIds = apps.map((a) => a.jobPost.id);
-      },
-      error: () => console.log('Failed to load applications'),
-    });
+    this.http
+      .get<any[]>(
+        'https://job-tracker-backend-s1bg.onrender.com/applications/my'
+      )
+      .subscribe({
+        next: (apps) => {
+          this.appliedJobIds = apps.map((a) => a.jobPost.id);
+        },
+        error: () => console.log('Failed to load applications'),
+      });
   }
 
   apply(jobPostId: number) {
     this.http
-      .post('http://localhost:3000/applications', { jobPostId })
+      .post('https://job-tracker-backend-s1bg.onrender.com/applications', {
+        jobPostId,
+      })
       .subscribe({
         next: () => {
           this.appliedJobIds.push(jobPostId);

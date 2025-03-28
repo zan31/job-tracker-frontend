@@ -30,21 +30,27 @@ export class UserDashboardComponent implements OnInit {
   }
 
   loadProfile() {
-    this.http.get<any>('http://localhost:3000/users/me').subscribe((user) => {
-      this.fullName = user.fullName;
-      this.cvUrl = user.cvUrl;
-    });
+    this.http
+      .get<any>('https://job-tracker-backend-s1bg.onrender.com/users/me')
+      .subscribe((user) => {
+        this.fullName = user.fullName;
+        this.cvUrl = user.cvUrl;
+      });
   }
 
   loadApplications() {
-    this.http.get<any[]>('http://localhost:3000/applications/my').subscribe({
-      next: (apps) => (this.applications = apps),
-    });
+    this.http
+      .get<any[]>(
+        'https://job-tracker-backend-s1bg.onrender.com/applications/my'
+      )
+      .subscribe({
+        next: (apps) => (this.applications = apps),
+      });
   }
 
   updateProfile() {
     this.http
-      .patch('http://localhost:3000/users/me', {
+      .patch('https://job-tracker-backend-s1bg.onrender.com/users/me', {
         fullName: this.fullName,
         passwordHash: this.password || undefined,
       })
@@ -60,7 +66,7 @@ export class UserDashboardComponent implements OnInit {
 
     this.http
       .post<{ uploadUrl: string; fileUrl: string }>(
-        'http://localhost:3000/users/me/presigned-cv-upload',
+        'https://job-tracker-backend-s1bg.onrender.com/users/me/presigned-cv-upload',
         {}
       )
       .subscribe({
@@ -72,15 +78,21 @@ export class UserDashboardComponent implements OnInit {
             .subscribe({
               next: () => {
                 this.http
-                  .patch('http://localhost:3000/users/me', {
-                    cvUrl: fileUrl,
-                  })
+                  .patch(
+                    'https://job-tracker-backend-s1bg.onrender.com/users/me',
+                    {
+                      cvUrl: fileUrl,
+                    }
+                  )
                   .subscribe(() => {
                     this.cvUrl = fileUrl;
                     this.http
-                      .patch('http://localhost:3000/users/me', {
-                        cvUrl: fileUrl,
-                      })
+                      .patch(
+                        'https://job-tracker-backend-s1bg.onrender.com/users/me',
+                        {
+                          cvUrl: fileUrl,
+                        }
+                      )
                       .subscribe(() => {
                         this.cvUrl = fileUrl;
                         this.showToast('CV uploaded and saved!', 'success');
@@ -104,7 +116,9 @@ export class UserDashboardComponent implements OnInit {
 
   withdraw(applicationId: number) {
     this.http
-      .delete(`http://localhost:3000/applications/${applicationId}`)
+      .delete(
+        `https://job-tracker-backend-s1bg.onrender.com/applications/${applicationId}`
+      )
       .subscribe({
         next: () => {
           this.applications = this.applications.filter(
@@ -125,14 +139,16 @@ export class UserDashboardComponent implements OnInit {
   }
 
   deleteAccount() {
-    this.http.delete('http://localhost:3000/users/me').subscribe({
-      next: () => {
-        this.auth.logout();
-        this.showToast('Your account has been deleted.', 'success');
-        location.href = '/login';
-      },
-      error: () => this.showToast('Failed to delete account', 'danger'),
-    });
+    this.http
+      .delete('https://job-tracker-backend-s1bg.onrender.com/users/me')
+      .subscribe({
+        next: () => {
+          this.auth.logout();
+          this.showToast('Your account has been deleted.', 'success');
+          location.href = '/login';
+        },
+        error: () => this.showToast('Failed to delete account', 'danger'),
+      });
   }
 
   openConfirmModal(title: string, message: string, action: () => void) {

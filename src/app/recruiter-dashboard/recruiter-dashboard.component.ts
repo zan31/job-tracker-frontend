@@ -29,24 +29,28 @@ export class RecruiterDashboardComponent implements OnInit {
   }
 
   loadProfile() {
-    this.http.get<any>('http://localhost:3000/users/me').subscribe({
-      next: (user) => {
-        this.fullName = user.fullName;
-      },
-      error: () => (this.error = 'Failed to load profile'),
-    });
+    this.http
+      .get<any>('https://job-tracker-backend-s1bg.onrender.com/users/me')
+      .subscribe({
+        next: (user) => {
+          this.fullName = user.fullName;
+        },
+        error: () => (this.error = 'Failed to load profile'),
+      });
   }
 
   loadJobPosts() {
-    this.http.get<any[]>('http://localhost:3000/job-posts/my').subscribe({
-      next: (data) => (this.jobPosts = data),
-      error: () => (this.error = 'Failed to load job posts'),
-    });
+    this.http
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/job-posts/my')
+      .subscribe({
+        next: (data) => (this.jobPosts = data),
+        error: () => (this.error = 'Failed to load job posts'),
+      });
   }
 
   updateProfile() {
     this.http
-      .patch('http://localhost:3000/users/me', {
+      .patch('https://job-tracker-backend-s1bg.onrender.com/users/me', {
         fullName: this.fullName,
         passwordHash: this.password || undefined,
       })
@@ -58,9 +62,12 @@ export class RecruiterDashboardComponent implements OnInit {
 
   hire(applicationId: number) {
     this.http
-      .patch(`http://localhost:3000/applications/${applicationId}`, {
-        status: 'hired',
-      })
+      .patch(
+        `https://job-tracker-backend-s1bg.onrender.com/applications/${applicationId}`,
+        {
+          status: 'hired',
+        }
+      )
       .subscribe({
         next: () => {
           this.loadJobPosts();
@@ -79,13 +86,17 @@ export class RecruiterDashboardComponent implements OnInit {
   }
 
   deleteJob(jobId: number) {
-    this.http.delete(`http://localhost:3000/job-posts/${jobId}`).subscribe({
-      next: () => {
-        this.jobPosts = this.jobPosts.filter((job) => job.id !== jobId);
-        this.showToast('Job post deleted.', 'success');
-      },
-      error: () => this.showToast('Failed to delete Job post.', 'danger'),
-    });
+    this.http
+      .delete(
+        `https://job-tracker-backend-s1bg.onrender.com/job-posts/${jobId}`
+      )
+      .subscribe({
+        next: () => {
+          this.jobPosts = this.jobPosts.filter((job) => job.id !== jobId);
+          this.showToast('Job post deleted.', 'success');
+        },
+        error: () => this.showToast('Failed to delete Job post.', 'danger'),
+      });
   }
 
   showToast(message: string, type: 'success' | 'danger' = 'success') {
@@ -136,7 +147,10 @@ export class RecruiterDashboardComponent implements OnInit {
 
   submitJobEdit() {
     this.http
-      .patch(`http://localhost:3000/job-posts/${this.editJob.id}`, this.editJob)
+      .patch(
+        `https://job-tracker-backend-s1bg.onrender.com/job-posts/${this.editJob.id}`,
+        this.editJob
+      )
       .subscribe({
         next: () => {
           this.loadJobPosts();

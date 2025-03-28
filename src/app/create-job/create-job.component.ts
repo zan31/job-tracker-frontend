@@ -27,19 +27,21 @@ export class CreateJobComponent {
     this.error = null;
     this.success = false;
 
-    this.http.post('http://localhost:3000/job-posts', this.job).subscribe({
-      next: () => {
-        this.success = true;
-        this.job = {
-          title: '',
-          description: '',
-          location: '',
-          salaryRange: '',
-        };
-      },
-      error: (err) => {
-        this.error = err.error?.message || 'Failed to create job post';
-      },
-    });
+    this.http
+      .post('https://job-tracker-backend-s1bg.onrender.com/job-posts', this.job)
+      .subscribe({
+        next: () => {
+          this.success = true;
+          this.job = {
+            title: '',
+            description: '',
+            location: '',
+            salaryRange: '',
+          };
+        },
+        error: (err) => {
+          this.error = err.error?.message || 'Failed to create job post';
+        },
+      });
   }
 }

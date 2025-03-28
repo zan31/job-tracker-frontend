@@ -35,7 +35,7 @@ export class AdminDashboardComponent implements OnInit {
 
     this.http
       .delete(
-        `http://localhost:3000/applications/admin/${this.deleteApplicationId}`
+        `https://job-tracker-backend-s1bg.onrender.com/applications/admin/${this.deleteApplicationId}`
       )
       .subscribe({
         next: () => {
@@ -62,7 +62,7 @@ export class AdminDashboardComponent implements OnInit {
   submitCompanyForm() {
     const data = this.editingCompany;
     const url =
-      'http://localhost:3000/companies' +
+      'https://job-tracker-backend-s1bg.onrender.com/companies' +
       (this.isNewCompany ? '' : `/${data.id}`);
     const method = this.isNewCompany ? this.http.post : this.http.put;
 
@@ -88,7 +88,9 @@ export class AdminDashboardComponent implements OnInit {
     if (!this.deleteCompanyId) return;
 
     this.http
-      .delete(`http://localhost:3000/companies/${this.deleteCompanyId}`)
+      .delete(
+        `https://job-tracker-backend-s1bg.onrender.com/companies/${this.deleteCompanyId}`
+      )
       .subscribe({
         next: () => {
           this.showToast('Company deleted', 'success');
@@ -112,25 +114,27 @@ export class AdminDashboardComponent implements OnInit {
 
   loadAllData() {
     this.http
-      .get<any[]>('http://localhost:3000/users')
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/users')
       .subscribe((data) => (this.users = data));
     this.http
-      .get<any[]>('http://localhost:3000/companies')
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/companies')
       .subscribe((data) => (this.companies = data));
     this.http
-      .get<any[]>('http://localhost:3000/job-posts')
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/job-posts')
       .subscribe((data) => (this.jobPosts = data));
     this.http
-      .get<any[]>('http://localhost:3000/applications')
+      .get<any[]>('https://job-tracker-backend-s1bg.onrender.com/applications')
       .subscribe((data) => (this.applications = data));
   }
 
   deleteEntity(type: string, id: number) {
     if (!confirm(`Are you sure you want to delete this ${type}?`)) return;
-    this.http.delete(`http://localhost:3000/${type}/${id}`).subscribe(() => {
-      this.loadAllData();
-      alert(`${type} deleted successfully.`);
-    });
+    this.http
+      .delete(`https://job-tracker-backend-s1bg.onrender.com/${type}/${id}`)
+      .subscribe(() => {
+        this.loadAllData();
+        alert(`${type} deleted successfully.`);
+      });
   }
   showToast(message: string, type: 'success' | 'danger' = 'success') {
     const toast = document.createElement('div');

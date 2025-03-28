@@ -14,7 +14,7 @@ export interface JwtPayload {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private tokenKey = 'access_token';
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = 'https://job-tracker-backend-s1bg.onrender.com/auth';
 
   constructor(private http: HttpClient, private router: Router) {}
 
