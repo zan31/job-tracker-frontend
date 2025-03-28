@@ -74,9 +74,20 @@ export class AuthService {
     return !!payload?.company;
   }
 
+  isAdmin(): boolean {
+    return this.getDecodedToken()?.role === 'admin';
+  }
+
   redirectToDashboard() {
+    const isAdmin = this.isAdmin();
     const isRecruiter = this.isRecruiter();
-    const target = isRecruiter ? '/recruiter-dashboard' : '/user-dashboard';
+    let target = '/user-dashboard';
+    if (isRecruiter) {
+      target = '/recruiter-dashboard';
+    }
+    if (isAdmin) {
+      target = '/admin-dashboard';
+    }
     this.router.navigate([target]);
   }
 }
