@@ -16,7 +16,10 @@
       <ul class="navbar-nav ms-auto">
         <ng-container *ngIf="auth.isLoggedIn(); else loggedOut">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+            <a class="nav-link" routerLink="/jobs">Job posts</a>
+          </li>
+          <li class="nav-item" *ngIf="showCreateJob()">
+            <a class="nav-link" routerLink="/jobs/create">Create Job</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" (click)="logout()" style="cursor: pointer"

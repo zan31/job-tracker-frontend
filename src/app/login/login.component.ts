@@ -22,7 +22,7 @@ export class LoginComponent {
     this.auth.login(this.email, this.password).subscribe({
       next: () => this.router.navigate(['/dashboard']),
       error: (err: HttpErrorResponse) => {
-        this.error = err.error?.message || 'Prijava ni uspela.';
+        this.error = err.error?.message || 'Login was not succesful';
       },
     });
   }

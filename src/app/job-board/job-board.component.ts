@@ -19,7 +19,7 @@ export class JobBoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadJobPosts();
-    //this.loadApplications();
+    this.loadApplications();
   }
 
   loadJobPosts() {

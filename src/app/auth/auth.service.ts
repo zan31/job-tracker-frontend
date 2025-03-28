@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { jwtDecode } from 'jwt-decode';
+
+export interface JwtPayload {
+  sub: number;
+  email: string;
+  company?: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -48,5 +55,20 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  getDecodedToken(): JwtPayload | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      return jwtDecode<JwtPayload>(token);
+    } catch {
+      return null;
+    }
+  }
+
+  isRecruiter(): boolean {
+    const payload = this.getDecodedToken();
+    return !!payload?.company;
   }
 }

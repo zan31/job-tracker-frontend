@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <h2>Create Job Post</h2>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">
+    Job post created successfully!
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm">
+    <div class="mb-3">
+      <label>Title</label>
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="job.title"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea
+        name="description"
+        [(ngModel)]="job.description"
+        class="form-control"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Location</label>
+      <input
+        type="text"
+        name="location"
+        [(ngModel)]="job.location"
+        class="form-control"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label>Salary Range</label>
+      <input
+        type="text"
+        name="salaryRange"
+        [(ngModel)]="job.salaryRange"
+        class="form-control"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div>

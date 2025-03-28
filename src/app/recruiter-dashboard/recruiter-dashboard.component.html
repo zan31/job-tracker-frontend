@@ -1,0 +1,84 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Recruiter Dashboard</h2>
+
+  <!-- === Update Profile Form === -->
+  <div class="card mb-4">
+    <div class="card-header">Update Your Profile</div>
+    <div class="card-body">
+      <form (ngSubmit)="updateProfile()">
+        <div class="mb-3">
+          <label>Full Name</label>
+          <input
+            [(ngModel)]="fullName"
+            name="fullName"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label>New Password</label>
+          <input
+            [(ngModel)]="password"
+            name="password"
+            type="password"
+            class="form-control"
+          />
+        </div>
+        <button class="btn btn-primary" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- === Job Posts with Applicants === -->
+  <div *ngFor="let job of jobPosts" class="card mb-4">
+    <div class="card-header">
+      <strong>{{ job.title }}</strong>
+    </div>
+    <div class="card-body">
+      <p>{{ job.description }}</p>
+      <table
+        class="table table-striped"
+        *ngIf="job.applications?.length > 0; else noApps"
+      >
+        <thead>
+          <tr>
+            <th>Applicant</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>CV</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let app of job.applications">
+            <td>{{ app.user.fullName }}</td>
+            <td>{{ app.user.email }}</td>
+            <td>
+              <span [class.text-success]="app.status === 'hired'">{{
+                app.status
+              }}</span>
+            </td>
+            <td>
+              <a *ngIf="app.user.cvUrl" [href]="app.user.cvUrl" target="_blank"
+                >View CV</a
+              >
+              <span *ngIf="!app.user.cvUrl">—</span>
+            </td>
+            <td>
+              <button
+                class="btn btn-sm btn-success"
+                (click)="hire(app.id)"
+                [disabled]="app.status === 'hired'"
+              >
+                Select
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noApps>
+        <p class="text-muted">No applicants yet.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

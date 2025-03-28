@@ -17,4 +17,8 @@ export class NavbarComponent {
     this.auth.logout();
     this.router.navigate(['/login']);
   }
+
+  showCreateJob(): boolean {
+    return this.auth.isLoggedIn() && this.auth.isRecruiter();
+  }
 }
