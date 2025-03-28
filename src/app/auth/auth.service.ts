@@ -8,6 +8,7 @@ export interface JwtPayload {
   sub: number;
   email: string;
   company?: number;
+  role: string;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -25,6 +25,7 @@
   </form>
 
   <!-- === CV Upload === -->
+  <h4>Upload CV</h4>
   <div class="card mb-4">
     <div class="card-body">
       <label>Upload CV (PDF)</label>
@@ -60,7 +61,55 @@
         <td>{{ app.jobPost.company.name }}</td>
         <td>{{ app.status }}</td>
         <td>{{ app.appliedAt | date : "medium" }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="openWithdrawModal(app.id)"
+          >
+            Withdraw
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
+  <hr />
+  <button class="btn btn-outline-danger mt-3" (click)="triggerDeleteAccount()">
+    Delete My Account
+  </button>
+</div>
+<div
+  class="modal fade"
+  id="confirmModal"
+  tabindex="-1"
+  aria-labelledby="confirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">{{ modalTitle }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        {{ modalMessage }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="handleModalConfirm()"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

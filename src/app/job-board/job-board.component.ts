@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+declare var bootstrap: any;
+
 @Component({
   selector: 'app-job-board',
   standalone: true,
@@ -42,12 +44,29 @@ export class JobBoardComponent implements OnInit {
     this.http
       .post('http://localhost:3000/applications', { jobPostId })
       .subscribe({
-        next: () => this.appliedJobIds.push(jobPostId),
-        error: () => alert('Already applied or error occurred'),
+        next: () => {
+          this.appliedJobIds.push(jobPostId);
+          this.showToast('Succesfully applied', 'success');
+        },
+        error: () =>
+          this.showToast('Already applied or error occurred', 'danger'),
       });
   }
 
   hasApplied(jobId: number): boolean {
     return this.appliedJobIds.includes(jobId);
+  }
+
+  showToast(message: string, type: 'success' | 'danger' = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-white bg-${type} border-0`;
+    toast.role = 'alert';
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>`;
+    document.getElementById('toastZone')?.appendChild(toast);
+    new bootstrap.Toast(toast).show();
   }
 }

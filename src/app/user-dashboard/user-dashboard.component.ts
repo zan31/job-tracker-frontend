@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-user-dashboard',
@@ -15,8 +18,11 @@ export class UserDashboardComponent implements OnInit {
   file: File | null = null;
   cvUrl: string | null = null;
   applications: any[] = [];
+  modalTitle = '';
+  modalMessage = '';
+  modalAction: (() => void) | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.loadProfile();
@@ -42,7 +48,7 @@ export class UserDashboardComponent implements OnInit {
         fullName: this.fullName,
         passwordHash: this.password || undefined,
       })
-      .subscribe(() => alert('Profile updated!'));
+      .subscribe(() => this.showToast('Profile updated!', 'success'));
   }
 
   onFileChange(event: any) {
@@ -77,14 +83,93 @@ export class UserDashboardComponent implements OnInit {
                       })
                       .subscribe(() => {
                         this.cvUrl = fileUrl;
-                        alert('CV uploaded and saved!');
+                        this.showToast('CV uploaded and saved!', 'success');
                       });
                   });
               },
-              error: () => alert('Failed to upload to S3'),
+              error: () => this.showToast('Failed to upload to S3', 'danger'),
             });
         },
-        error: () => alert('Failed to get presigned URL'),
+        error: () => this.showToast('Failed to get presigned URL', 'danger'),
       });
+  }
+
+  openWithdrawModal(applicationId: number) {
+    this.openConfirmModal(
+      'Withdraw Application',
+      'Are you sure you want to withdraw this application?',
+      () => this.withdraw(applicationId)
+    );
+  }
+
+  withdraw(applicationId: number) {
+    this.http
+      .delete(`http://localhost:3000/applications/${applicationId}`)
+      .subscribe({
+        next: () => {
+          this.applications = this.applications.filter(
+            (app) => app.id !== applicationId
+          );
+          this.showToast('Application withdrawn', 'success');
+        },
+        error: () => this.showToast('Failed to withdraw', 'danger'),
+      });
+  }
+
+  triggerDeleteAccount() {
+    this.openConfirmModal(
+      'Delete Account',
+      'Are you sure you want to permanently delete your account?',
+      () => this.deleteAccount()
+    );
+  }
+
+  deleteAccount() {
+    this.http.delete('http://localhost:3000/users/me').subscribe({
+      next: () => {
+        this.auth.logout();
+        this.showToast('Your account has been deleted.', 'success');
+        location.href = '/login';
+      },
+      error: () => this.showToast('Failed to delete account', 'danger'),
+    });
+  }
+
+  openConfirmModal(title: string, message: string, action: () => void) {
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.modalAction = action;
+
+    const modalEl = document.getElementById('confirmModal');
+    if (modalEl) {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+
+  handleModalConfirm() {
+    if (this.modalAction) {
+      this.modalAction();
+      this.modalAction = null;
+
+      const modalEl = document.getElementById('confirmModal');
+      if (modalEl) {
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal?.hide();
+      }
+    }
+  }
+
+  showToast(message: string, type: 'success' | 'danger' = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-white bg-${type} border-0`;
+    toast.role = 'alert';
+    toast.innerHTML = `
+      <div class="d-flex">
+        <div class="toast-body">${message}</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>`;
+    document.getElementById('toastZone')?.appendChild(toast);
+    new bootstrap.Toast(toast).show();
   }
 }
