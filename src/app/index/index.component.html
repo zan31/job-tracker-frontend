@@ -1,0 +1,74 @@
+  <div class="position-relative">
+    <img src="assets/images/hero.jpg" class="w-100" style="height: 60vh; object-fit: cover;" alt="Hero image">
+    <div class="position-absolute top-50 start-50 translate-middle text-white text-center px-3" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.8);">
+      <h1 class="display-4 fw-bold">Welcome to JobConnect</h1>
+      <p class="lead">Connecting talent with opportunity.</p>
+      <a (click)="navigateToRegister()" class="btn btn-light btn-lg mt-3">Get Started</a>
+    </div>
+  </div>
+
+  <div class="container text-center py-5">
+    <h2 class="mb-4 fw-bold">Built for Job Seekers & Recruiters</h2>
+    <p class="lead text-muted">
+      JobConnect makes it easy to find your next opportunity or your next great hire.
+      Trusted by professionals and companies alike.
+    </p>
+  
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <h5><i class="bi bi-briefcase-fill me-2"></i>1,000+ Jobs Posted</h5>
+        <p class="text-muted">Across multiple industries and growing daily.</p>
+      </div>
+      <div class="col-md-4">
+        <h5><i class="bi bi-people-fill me-2"></i>Trusted by 500+ Companies</h5>
+        <p class="text-muted">From startups to enterprise recruiters.</p>
+      </div>
+      <div class="col-md-4">
+        <h5><i class="bi bi-shield-lock-fill me-2"></i>Secure Platform</h5>
+        <p class="text-muted">Your data is safe with encrypted authentication.</p>
+      </div>
+    </div>
+  
+    <a (click)="navigateToRegister()" class="btn btn-primary btn-lg mt-4">Create Your Account</a>
+  </div>
+  
+  <!-- Why Choose Section -->
+  <div id="jobconnectCarousel" class="carousel slide mt-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+  
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+        <img src="assets/images/resume.jpg" class="d-block w-100" style="object-fit: cover; height: 60vh;" alt="For Job Seekers">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+          <h3>For Job Seekers</h3>
+          <p>Upload your CV, browse jobs, and apply with one click.</p>
+        </div>
+      </div>
+  
+      <!-- Slide 2 -->
+      <div class="carousel-item">
+        <img src="assets/images/interview.jpg" class="d-block w-100" style="object-fit: cover; height: 60vh;" alt="For Recruiters">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+          <h3>For Recruiters</h3>
+          <p>Post job openings and manage applications with ease.</p>
+        </div>
+      </div>
+  
+      <!-- Slide 3 -->
+      <div class="carousel-item">
+        <img src="assets/images/cyber.jpg" class="d-block w-100" style="object-fit: cover; height: 60vh;" alt="Fast & Secure">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+          <h3>Fast & Secure</h3>
+          <p>We use secure authentication and fast servers for your safety and speed.</p>
+        </div>
+      </div>
+  
+    </div>
+  
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#jobconnectCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#jobconnectCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>

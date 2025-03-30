@@ -32,5 +32,9 @@ export const routes: Routes = [
     component: CreateJobComponent,
     canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: 'login' },
+  {
+    path: '',
+    loadComponent: () => import('./index/index.component').then(m => m.IndexComponent),
+  },
+  { path: '**', redirectTo: '' },
 ];
