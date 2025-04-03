@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 declare var bootstrap: any;
 @Component({
   selector: 'app-admin-dashboard',
@@ -19,10 +21,13 @@ export class AdminDashboardComponent implements OnInit {
   deleteCompanyId: number | null = null;
   deleteApplicationId: number | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadAllData();
+    if(!this.authService.isAdmin()){
+      this.router.navigate(['']);
+    }
   }
 
   openDeleteApplicationModal(id: number) {

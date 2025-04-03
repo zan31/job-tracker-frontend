@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 declare var bootstrap: any;
 
@@ -21,11 +23,15 @@ export class RecruiterDashboardComponent implements OnInit {
   modalAction: (() => void) | null = null;
   editJob: any = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadProfile();
     this.loadJobPosts();
+
+    if(!this.authService.isRecruiter){
+      this.router.navigate(['']);
+    }
   }
 
   loadProfile() {
