@@ -29,7 +29,7 @@ export class RecruiterDashboardComponent implements OnInit {
     this.loadProfile();
     this.loadJobPosts();
 
-    if(!this.authService.isRecruiter){
+    if(!this.authService.isRecruiter()){
       this.router.navigate(['']);
     }
   }
